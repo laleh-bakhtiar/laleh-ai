@@ -1,0 +1,21 @@
+{
+  "name": "laleh-ai",
+  "version": "1.0.0",
+  "description": "Laleh AI – Ask questions based on the works of Dr. Laleh Bakhtiar using OpenAI + Supabase",
+  "scripts": {
+	"dev": "next dev",
+	"build": "next build",
+	"start": "next start"
+  },
+  "dependencies": {
+	"@supabase/supabase-js": "^2.39.1",
+	"next": "^14.1.0",
+	"openai": "^4.27.0",
+	"pdf-parse": "^1.1.1",
+	"react": "^18.2.0",
+	"react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+	"@netlify/plugin-nextjs": "^4.38.0"
+  }
+}
