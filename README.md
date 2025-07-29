@@ -1,4 +1,4 @@
-# 🌺 Laleh AI – Q&A Powered by OpenAI + Supabase
+# 🌺 Laleh AI – Q&A Powered by OpenAI
 
 A Next.js + Netlify app that lets users upload PDFs of Dr. Laleh Bakhtiar’s work and ask questions grounded in her legacy using GPT-4o.
 
@@ -8,7 +8,6 @@ A Next.js + Netlify app that lets users upload PDFs of Dr. Laleh Bakhtiar’s wo
 
 - 📄 Upload PDFs (e.g., books, lectures)
 - 🧠 Embed text with OpenAI's Embedding API
-- 📚 Store embeddings in Supabase pgvector
 - 🤖 Ask natural language questions
 - 🗣️ Get accurate, context-aware answers
 
@@ -19,7 +18,7 @@ A Next.js + Netlify app that lets users upload PDFs of Dr. Laleh Bakhtiar’s wo
 - **Frontend**: Next.js + React
 - **Backend**: Netlify Functions (Next.js API Routes)
 - **LLM**: OpenAI (`gpt-4o`, `text-embedding-3-small`)
-- **Vector DB**: Supabase with `pgvector` extension
+- **Vector DB**: OpenAI Vector Storage
 
 ---
 
