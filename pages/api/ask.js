@@ -10,6 +10,7 @@ async function getFileName(fileId) {
 }
 
 export default async function handler(req, res) {
+	console.log('API called with:', req.body);
 	const { question, threadId: clientThreadId } = req.body;
 
 	let threadId = clientThreadId;
@@ -38,6 +39,7 @@ export default async function handler(req, res) {
 	const messages = await openai.beta.threads.messages.list(threadId);
 	const answerMessage = messages.data[0];
 	const answer = answerMessage?.content[0]?.text?.value || 'No answer found.';
+	console.log('Answer:', answer);
 
 	const annotations = answerMessage?.content[0]?.text?.annotations || [];
 
@@ -51,9 +53,14 @@ export default async function handler(req, res) {
 		}
 	}
 
-	res.status(200).json({
-		answer,
+	const response = {
+		id: Date.now().toString(),
+		role: 'assistant',
+		content: answer,
 		threadId,
 		sources,
-	});
+	};
+	
+	console.log('Sending response:', response);
+	res.status(200).json(response);
 }

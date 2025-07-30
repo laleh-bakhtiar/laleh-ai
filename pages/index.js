@@ -1,70 +1,135 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import Image from 'next/image';
 
-export default function Home() {
-	const [question, setQuestion] = useState('');
-	const [answer, setAnswer] = useState('');
-	const [sources, setSources] = useState({});
+export default function Chat() {
+	const [messages, setMessages] = useState([]);
+	const [input, setInput] = useState('');
+	const [error, setError] = useState(null);
+	const [isLoading, setIsLoading] = useState(false);
 	const [threadId, setThreadId] = useState(null);
+	const endRef = useRef(null);
 
-	async function ask() {
-		setAnswer('Thinking...');
-		setSources({});
+	useEffect(() => {
+		endRef.current?.scrollIntoView({ behavior: 'smooth' });
+	}, [messages]);
 
-		const res = await fetch('/api/ask', {
-			method: 'POST',
-			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify({ question, threadId }),
-		});
+	const handleInputChange = (e) => {
+		setInput(e.target.value);
+	};
 
-		const data = await res.json();
-		setAnswer(data.answer);
-		setSources(data.sources || {});
-		setThreadId(data.threadId); // Persist thread ID for follow-ups
-	}
+	const handleSubmit = async (e) => {
+		e.preventDefault();
+		if (!input.trim() || isLoading) return;
+
+		const userMessage = { id: Date.now().toString(), role: 'user', content: input };
+		setMessages(prev => [...prev, userMessage]);
+		setInput('');
+		setError(null);
+		setIsLoading(true);
+
+		try {
+			const response = await fetch('/api/chat', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify({ 
+					messages: [...messages, userMessage], 
+					threadId 
+				}),
+			});
+
+			if (!response.ok) {
+				const errorData = await response.json();
+				throw new Error(errorData.error || 'Failed to get response');
+			}
+
+			const data = await response.json();
+			const assistantMessage = { 
+				id: data.id, 
+				role: data.role, 
+				content: data.content 
+			};
+			
+			setMessages(prev => [...prev, assistantMessage]);
+			
+			if (data.threadId && data.threadId !== threadId) {
+				setThreadId(data.threadId);
+			}
+		} catch (err) {
+			console.error('Error:', err);
+			setError(err.message);
+			// Remove the user message if the API call failed
+			setMessages(prev => prev.filter(msg => msg.id !== userMessage.id));
+		} finally {
+			setIsLoading(false);
+		}
+	};
 
 	return (
-		<main style={{ padding: 40 }}>
-			<h1>Laleh AI</h1>
+		<main className="flex flex-col lg:flex-row min-h-screen bg-background text-foreground">
+			{/* Sidebar */}
+			<aside className="w-full lg:w-80 bg-card p-6 flex flex-col items-center shadow-md relative overflow-hidden" style={{
+				backgroundImage: 'url(/images/laleh-background.png)',
+				backgroundSize: 'cover',
+				backgroundPosition: 'right center',
+				backgroundRepeat: 'no-repeat'
+			}}>
+				{/* Overlay to ensure text readability */}
+				<div className="absolute inset-0 bg-black/60"></div>
+				{/* Content with relative positioning to appear above overlay */}
+				<div className="relative z-10 flex flex-col items-center">
+				<Image src="/images/laleh.jpg" alt="Dr. Laleh Bakhtiar" width={120} height={120} className="rounded-full mb-4" />
+				<h2 className="text-xl font-semibold">Laleh AI</h2>
+				<p className="text-sm text-muted mb-2">Islamic Scholar & Author</p>
+				<p className="text-center text-sm mb-4">Dr. Laleh Bakhtiar was a renowned scholar and author, known for her translation of the Quran and contributions to Islamic studies.</p>
+				<p className="text-center text-sm mb-4">Explore Islam, Sufism, and the significance of her translation of the Quran with Laleh Al, an interactive tool that offers a deep dive into the life and works of the late scholar Dr. Laleh Bakhtiar.</p>
+				{/* <button className="bg-accent text-accent-foreground px-4 py-1 rounded-md text-sm font-medium hover:opacity-90">Follow</button> */}
+				</div>
+			</aside>
 
-			<div style={{ marginBottom: 20 }}>
-				<input value={question} onChange={e => setQuestion(e.target.value)} placeholder="Ask about Laleh..." style={{ width: '300px', padding: '8px' }} />
-				<button onClick={ask} style={{ marginLeft: '1rem' }}>
-					Ask
-				</button>
-				<button
-					onClick={() => {
-						setThreadId(null);
-						setAnswer('');
-						setSources({});
-					}}
-					style={{ marginLeft: '1rem' }}
-				>
-					New Conversation
-				</button>
-			</div>
-
-			<div style={{ whiteSpace: 'pre-wrap', marginBottom: 20 }}>
-				<h3>Answer:</h3>
-				<p>{answer}</p>
-			</div>
-
-			{Object.keys(sources).length > 0 && (
-				<div>
-					<h4>Sources:</h4>
-					{Object.entries(sources).map(([filename, annotations]) => (
-						<div key={filename} style={{ marginBottom: 10 }}>
-							<strong>📄 {filename}</strong>
-							<ul>
-								{annotations.map((a, i) => (
-									<li key={i} style={{ fontStyle: 'italic', marginBottom: 4 }}>
-										“{a.text}”
-									</li>
-								))}
-							</ul>
+			{/* Chat Interface */}
+			<section className="flex-1 flex flex-col justify-between p-4 lg:p-10 space-y-4 overflow-y-auto">
+				{error && (
+					<div className="bg-red-500 text-white p-4 rounded-lg mb-4">
+						Error: {error}
+					</div>
+				)}
+				<div className="flex flex-col space-y-4 animate-fade-in">
+					{messages.map((m, i) => (
+						<div key={i} className={`max-w-xl p-4 rounded-lg shadow-sm transition-all duration-300 ${m.role === 'user' ? 'self-end bg-message-user text-message-user-foreground' : 'self-start bg-message-ai text-message-ai-foreground'} animate-fade-in`}>
+							{m.content}
 						</div>
 					))}
+					{isLoading && (
+						<div className="self-start bg-message-ai text-message-ai-foreground max-w-xl p-4 rounded-lg shadow-sm animate-fade-in">
+							<div className="flex items-center space-x-2">
+								<div className="animate-spin rounded-full h-4 w-4 border-2 border-current border-t-transparent"></div>
+								<span className="text-sm">Laleh AI is working...</span>
+							</div>
+						</div>
+					)}
+					<div ref={endRef} />
 				</div>
-			)}
+
+				{/* Input Field */}
+				<form onSubmit={handleSubmit} className="flex items-center gap-2 border rounded-lg px-4 py-2 bg-input text-input-foreground w-full mx-auto mt-4 lg:mt-6">
+					<input 
+						className="flex-1 bg-transparent outline-none placeholder:text-muted" 
+						value={input} 
+						placeholder="Ask Laleh AI..." 
+						onChange={handleInputChange}
+						disabled={isLoading}
+					/>
+					<button 
+						type="submit" 
+						className="bg-accent text-accent-foreground rounded-md px-3 py-1 hover:opacity-90 disabled:opacity-50"
+						disabled={isLoading}
+					>
+						{isLoading ? '...' : '➤'}
+					</button>
+				</form>
+			</section>
 		</main>
 	);
 }
