@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
+import ReactMarkdown from 'react-markdown';
 
 export default function Chat() {
 	const [messages, setMessages] = useState([]);
@@ -67,9 +68,9 @@ export default function Chat() {
 	};
 
 	return (
-		<main className="flex flex-col lg:flex-row min-h-screen bg-background text-foreground">
-			{/* Sidebar */}
-			<aside className="w-full lg:w-80 bg-card p-6 flex flex-col items-center shadow-md relative overflow-hidden" style={{
+		<main className="flex min-h-screen bg-background text-foreground">
+			{/* Fixed Sidebar */}
+			<aside className="w-full lg:w-80 bg-card p-6 flex flex-col items-center shadow-md relative overflow-hidden lg:fixed lg:left-0 lg:top-0 lg:h-screen lg:z-10" style={{
 				backgroundImage: 'url(/images/laleh-background.png)',
 				backgroundSize: 'cover',
 				backgroundPosition: 'right center',
@@ -88,8 +89,8 @@ export default function Chat() {
 				</div>
 			</aside>
 
-			{/* Chat Interface */}
-			<section className="flex-1 flex flex-col justify-between p-4 lg:p-10 space-y-4 overflow-y-auto">
+			{/* Chat Interface with margin to account for fixed sidebar */}
+			<section className="flex-1 flex flex-col justify-between p-4 lg:p-10 space-y-4 overflow-y-auto lg:ml-80">
 				{error && (
 					<div className="bg-red-500 text-white p-4 rounded-lg mb-4">
 						Error: {error}
@@ -98,7 +99,26 @@ export default function Chat() {
 				<div className="flex flex-col space-y-4 animate-fade-in">
 					{messages.map((m, i) => (
 						<div key={i} className={`max-w-xl p-4 rounded-lg shadow-sm transition-all duration-300 ${m.role === 'user' ? 'self-end bg-message-user text-message-user-foreground' : 'self-start bg-message-ai text-message-ai-foreground'} animate-fade-in`}>
-							{m.content}
+							{m.role === 'user' ? (
+								<div>{m.content}</div>
+							) : (
+								<div className="prose prose-sm prose-invert max-w-none">
+									<ReactMarkdown 
+										components={{
+											p: ({children}) => <p className="mb-2 last:mb-0">{children}</p>,
+											ul: ({children}) => <ul className="list-disc list-inside mb-2 space-y-1">{children}</ul>,
+											ol: ({children}) => <ol className="list-decimal list-inside mb-2 space-y-1">{children}</ol>,
+											li: ({children}) => <li className="text-sm">{children}</li>,
+											strong: ({children}) => <strong className="font-semibold">{children}</strong>,
+											em: ({children}) => <em className="italic">{children}</em>,
+											code: ({children}) => <code className="bg-gray-700 px-1 py-0.5 rounded text-xs">{children}</code>,
+											blockquote: ({children}) => <blockquote className="border-l-4 border-accent pl-4 italic text-sm">{children}</blockquote>,
+										}}
+									>
+										{m.content}
+									</ReactMarkdown>
+								</div>
+							)}
 						</div>
 					))}
 					{isLoading && (
