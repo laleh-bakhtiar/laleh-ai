@@ -68,8 +68,8 @@ export default function Chat() {
 	};
 
 	return (
-		<main className="flex min-h-screen bg-background text-foreground">
-			{/* Fixed Sidebar */}
+		<main className="flex flex-col lg:flex-row min-h-screen bg-background text-foreground">
+			{/* Responsive Sidebar - Fixed on desktop, normal flow on mobile */}
 			<aside className="w-full lg:w-80 bg-card p-6 flex flex-col items-center shadow-md relative overflow-hidden lg:fixed lg:left-0 lg:top-0 lg:h-screen lg:z-10" style={{
 				backgroundImage: 'url(/images/laleh-background.png)',
 				backgroundSize: 'cover',
@@ -89,7 +89,7 @@ export default function Chat() {
 				</div>
 			</aside>
 
-			{/* Chat Interface with margin to account for fixed sidebar */}
+			{/* Chat Interface - Responsive margin */}
 			<section className="flex-1 flex flex-col justify-between p-4 lg:p-10 space-y-4 overflow-y-auto lg:ml-80">
 				{error && (
 					<div className="bg-red-500 text-white p-4 rounded-lg mb-4">
