@@ -8,11 +8,12 @@ export default function Chat() {
 	const [error, setError] = useState(null);
 	const [isLoading, setIsLoading] = useState(false);
 	const [threadId, setThreadId] = useState(null);
+	const [streamingMessage, setStreamingMessage] = useState(null);
 	const endRef = useRef(null);
 
 	useEffect(() => {
 		endRef.current?.scrollIntoView({ behavior: 'smooth' });
-	}, [messages]);
+	}, [messages, streamingMessage]);
 
 	const handleInputChange = (e) => {
 		setInput(e.target.value);
@@ -21,48 +22,94 @@ export default function Chat() {
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		if (!input.trim() || isLoading) return;
-
+	
 		const userMessage = { id: Date.now().toString(), role: 'user', content: input };
 		setMessages(prev => [...prev, userMessage]);
 		setInput('');
 		setError(null);
 		setIsLoading(true);
-
+		setStreamingMessage({ id: (Date.now() + 1).toString(), role: 'assistant', content: '' });
+	
+		let accumulatedContent = '';
+		let finalResponse = null;
+	
 		try {
-			const response = await fetch('/api/chat', {
+			const res = await fetch('/api/ask', {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
 				},
-				body: JSON.stringify({ 
-					messages: [...messages, userMessage], 
-					threadId 
-				}),
+				body: JSON.stringify({ question: input, threadId }),
 			});
-
-			if (!response.ok) {
-				const errorData = await response.json();
-				throw new Error(errorData.error || 'Failed to get response');
+	
+			const reader = res.body.getReader();
+			const decoder = new TextDecoder();
+			let buffer = '';
+	
+			while (true) {
+				const { done, value } = await reader.read();
+				if (done) break;
+	
+				buffer += decoder.decode(value, { stream: true });
+	
+				const parts = buffer.split('\n\n');
+				buffer = parts.pop(); // Keep incomplete part
+	
+				for (const part of parts) {
+					if (part.startsWith('data: ')) {
+						const json = part.slice(6).trim();
+						try {
+							const data = JSON.parse(json);
+	
+							switch (data.type) {
+								case 'content':
+									accumulatedContent += data.content;
+									setStreamingMessage(prev => ({
+										...prev,
+										content: accumulatedContent,
+									}));
+									break;
+	
+								case 'final':
+									finalResponse = data.data;
+									setThreadId(data.data.threadId);
+									break;
+	
+								case 'error':
+									throw new Error(data.error);
+							}
+						} catch (err) {
+							console.error('JSON parse error:', err, part);
+						}
+					} else if (part.startsWith('event: end')) {
+						console.log('Stream ended');
+					}
+				}
 			}
-
-			const data = await response.json();
-			const assistantMessage = { 
-				id: data.id, 
-				role: data.role, 
-				content: data.content 
-			};
-			
-			setMessages(prev => [...prev, assistantMessage]);
-			
-			if (data.threadId && data.threadId !== threadId) {
-				setThreadId(data.threadId);
+	
+			if (finalResponse) {
+				setMessages(prev => [...prev, {
+					id: finalResponse.id,
+					role: finalResponse.role,
+					content: finalResponse.content,
+					sources: finalResponse.sources
+				}]);
+			} else if (accumulatedContent) {
+				setMessages(prev => [...prev, {
+					id: Date.now().toString(),
+					role: 'assistant',
+					content: accumulatedContent
+				}]);
 			}
+	
+			setStreamingMessage(null);
+			setIsLoading(false);
+	
 		} catch (err) {
 			console.error('Error:', err);
 			setError(err.message);
-			// Remove the user message if the API call failed
 			setMessages(prev => prev.filter(msg => msg.id !== userMessage.id));
-		} finally {
+			setStreamingMessage(null);
 			setIsLoading(false);
 		}
 	};
@@ -137,7 +184,33 @@ export default function Chat() {
 								)}
 							</div>
 						))}
-						{isLoading && (
+						
+						{/* Streaming message */}
+						{streamingMessage && (
+							<div className="self-start bg-message-ai text-message-ai-foreground max-w-xl p-4 rounded-lg shadow-sm animate-fade-in">
+								<div className="prose prose-sm prose-invert max-w-none">
+									<ReactMarkdown 
+										components={{
+											p: ({children}) => <p className="mb-2 last:mb-0">{children}</p>,
+											ul: ({children}) => <ul className="list-disc list-inside mb-2 space-y-1">{children}</ul>,
+											ol: ({children}) => <ol className="list-decimal list-inside mb-2 space-y-1">{children}</ol>,
+											li: ({children}) => <li className="text-sm">{children}</li>,
+											strong: ({children}) => <strong className="font-semibold">{children}</strong>,
+											em: ({children}) => <em className="italic">{children}</em>,
+											code: ({children}) => <code className="bg-gray-700 px-1 py-0.5 rounded text-xs">{children}</code>,
+											blockquote: ({children}) => <blockquote className="border-l-4 border-accent pl-4 italic text-sm">{children}</blockquote>,
+										}}
+									>
+										{streamingMessage.content || 'Thinking...'}
+									</ReactMarkdown>
+									{isLoading && (
+										<span className="inline-block w-2 h-4 bg-current animate-pulse ml-1"></span>
+									)}
+								</div>
+							</div>
+						)}
+						
+						{isLoading && !streamingMessage && (
 							<div className="self-start bg-message-ai text-message-ai-foreground max-w-xl p-4 rounded-lg shadow-sm animate-fade-in">
 								<div className="flex items-center space-x-2">
 									<div className="animate-spin rounded-full h-4 w-4 border-2 border-current border-t-transparent"></div>
