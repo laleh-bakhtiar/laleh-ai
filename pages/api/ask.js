@@ -27,7 +27,8 @@ export default async function handler(req, res) {
 
 	const run = await openai.beta.threads.runs.create(threadId, {
 		assistant_id: process.env.ASSISTANT_ID,
-	});
+		tool_choice: "required"
+	  });
 
 	let status = run.status;
 	while (status !== 'completed' && status !== 'failed' && status !== 'cancelled') {
@@ -37,8 +38,10 @@ export default async function handler(req, res) {
 	}
 
 	const messages = await openai.beta.threads.messages.list(threadId);
-	const answerMessage = messages.data[0];
-	const answer = answerMessage?.content[0]?.text?.value || 'No answer found.';
+	const sortedMessages = messages.data.sort((a, b) => b.created_at - a.created_at);
+	const answerMessage = sortedMessages.find(m => m.role === 'assistant');
+	const answer = answerMessage?.content[0]?.text?.value || 
+	"I'm sorry, I couldn't find anything related to that question in the provided documents.";
 	console.log('Answer:', answer);
 
 	const annotations = answerMessage?.content[0]?.text?.annotations || [];
