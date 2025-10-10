@@ -131,11 +131,21 @@ export default function Chat() {
 					<div className="lg:hidden flex items-start gap-4">
 						<Image src="/images/laleh.jpg" alt="Dr. Laleh Bakhtiar" width={80} height={80} className="rounded-full flex-shrink-0" />
 						<div className="flex-1 min-w-0">
-							<h2 className="text-lg font-semibold">Laleh AI</h2>
-							<p className="text-sm text-muted mb-2">Islamic Scholar & Author</p>
-							<p className="text-sm mb-2">Dr. Laleh Bakhtiar was a renowned scholar and author, known for her translation of the Quran and contributions to Islamic studies.</p>
-							<p className="text-sm">Explore Islam, Sufism, and the significance of her translation of the Quran with Laleh Al, an interactive tool that offers a deep dive into the life and works of the late scholar Dr. Laleh Bakhtiar.</p>
-						</div>
+  <h2 className="text-lg font-semibold">Laleh AI</h2>
+  <p className="text-sm mb-2">
+    Experience Laleh AI, an interactive space built from the writings and wisdom of the late Dr. Laleh Bakhtiar, pioneering scholar, translator, and interfaith thinker.
+  </p>
+  <p className="text-sm italic text-muted mb-1">Try asking:</p>
+  <div className="pl-4 text-sm text-muted-foreground italic space-y-1">
+    <p>💬 “How did <strong>Little Women</strong> inspire Dr. Laleh Bakhtiar growing up in D.C.?”</p>
+    <p>💬 “How did Dr. Seyyed Hossein Nasr guide her as a mentor?”</p>
+    <p>💬 “What was Dr. Laleh Bakhtiar’s approach to interfaith understanding?”</p>
+    <p>💬 “How did Dr. Laleh Bakhtiar reimagine chivalry as a code of compassion and integrity?”</p>
+  </div>
+  <p className="text-sm mt-3">
+    Before she passed, Dr. Bakhtiar began recording her reflections and stories with her children, inspiring the creation of Laleh AI — a way to engage with her wisdom through the data of her writings, notes, and lectures, and to explore her timeless ideas on faith, spirit, and humanity.
+  </p>
+</div>
 					</div>
 					
 					{/* Desktop layout: vertical centered */}
