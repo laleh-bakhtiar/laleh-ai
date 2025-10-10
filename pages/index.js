@@ -140,10 +140,9 @@ export default function Chat() {
     <p>💬 “How did <strong>Little Women</strong> inspire Dr. Laleh Bakhtiar growing up in D.C.?”</p>
     <p>💬 “How did Dr. Seyyed Hossein Nasr guide her as a mentor?”</p>
     <p>💬 “What was Dr. Laleh Bakhtiar’s approach to interfaith understanding?”</p>
-    <p>💬 “How did Dr. Laleh Bakhtiar reimagine chivalry as a code of compassion and integrity?”</p>
   </div>
   <p className="text-sm mt-3">
-    Before she passed, Dr. Bakhtiar began recording her reflections and stories with her children, inspiring the creation of Laleh AI — a way to engage with her wisdom through the data of her writings, notes, and lectures, and to explore her timeless ideas on faith, spirit, and humanity.
+    Before she passed, Dr. Bakhtiar began recording her reflections and stories with her children, inspiring the creation of Laleh AI, a way to engage with her wisdom through the data of her writings, notes, and lectures, and to explore her timeless ideas on faith, spirit, and humanity.
   </p>
 </div>
 					</div>
@@ -166,10 +165,9 @@ export default function Chat() {
     <p>💬 “How did <strong>Little Women</strong> inspire Dr. Laleh Bakhtiar growing up in D.C.?”</p>
     <p>💬 “How did Dr. Seyyed Hossein Nasr guide her as a mentor?”</p>
     <p>💬 “What was Dr. Laleh Bakhtiar’s approach to interfaith understanding?”</p>
-    <p>💬 “How did Dr. Laleh Bakhtiar reimagine chivalry as a code of compassion and integrity?”</p>
   </div>
   <p className="text-sm">
-    Before she passed, Dr. Bakhtiar began recording her reflections and stories with her children, inspiring the creation of Laleh AI — a way to engage with her wisdom through the data of her writings, notes, and lectures, and to explore her timeless ideas on faith, spirit, and humanity.
+    Before she passed, Dr. Bakhtiar began recording her reflections and stories with her children, inspiring the creation of Laleh AI, a way to engage with her wisdom through the data of her writings, notes, and lectures, and to explore her timeless ideas on faith, spirit, and humanity.
   </p>
   {/* <button className="bg-accent text-accent-foreground px-4 py-1 rounded-md text-sm font-medium hover:opacity-90 mt-3">Follow</button> */}
 </div>
