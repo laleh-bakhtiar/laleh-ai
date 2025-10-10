@@ -137,7 +137,7 @@ export default function Chat() {
   </p>
   <p className="text-sm italic text-muted mb-1">Try asking:</p>
   <div className="pl-4 text-sm text-muted-foreground italic space-y-1">
-    <p>💬 “How did <strong>Little Women</strong> inspire Dr. Laleh Bakhtiar growing up in D.C.?”</p>
+    <p>💬 “How did Little Women inspire Dr. Laleh Bakhtiar growing up in D.C.?”</p>
     <p>💬 “How did Dr. Seyyed Hossein Nasr guide her as a mentor?”</p>
     <p>💬 “What was Dr. Laleh Bakhtiar’s approach to interfaith understanding?”</p>
   </div>
@@ -162,7 +162,7 @@ export default function Chat() {
   </p>
   <p className="text-sm italic text-muted mb-1">Try asking:</p>
   <div className="text-sm text-muted-foreground italic space-y-1 mb-4">
-    <p>💬 “How did <strong>Little Women</strong> inspire Dr. Laleh Bakhtiar growing up in D.C.?”</p>
+    <p>💬 “How did Little Women inspire Dr. Laleh Bakhtiar growing up in D.C.?”</p>
     <p>💬 “How did Dr. Seyyed Hossein Nasr guide her as a mentor?”</p>
     <p>💬 “What was Dr. Laleh Bakhtiar’s approach to interfaith understanding?”</p>
   </div>
