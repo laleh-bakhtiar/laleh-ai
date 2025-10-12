@@ -66,7 +66,7 @@ export function useLegacyNavigation() {
 			const submenu = item.querySelector(':scope > .wsite-menu-wrap');
 			if (!submenu) return;
 			const show = () => submenu.style.setProperty('display', 'block');
-			const hide = () => submenu.style.removeProperty('display');
+			const hide = () => submenu.style.setProperty('display', 'none');
 			item.addEventListener('mouseenter', show);
 			item.addEventListener('mouseleave', hide);
 			desktopListeners.push({ item, show, hide });
