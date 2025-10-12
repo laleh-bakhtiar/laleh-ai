@@ -1,8 +1,12 @@
 // pages/_app.js
 import '../styles/globals.css';
-import { useLegacyNavigation } from '../lib/useLegacyNavigation';
+import Navigation from '../components/Navigation';
 
 export default function App({ Component, pageProps }) {
- useLegacyNavigation();
- return <Component {...pageProps} />;
+	return (
+		<>
+			<Navigation />
+			<Component {...pageProps} />
+		</>
+	);
 }

@@ -9,6 +9,10 @@ function isInternalLink(href) {
 	return href.startsWith('/');
 }
 
+function getDirectChildByClass(element, className) {
+	return Array.from(element.children).find((child) => child.classList?.contains(className));
+}
+
 export function useLegacyNavigation() {
 	const router = useRouter();
 
@@ -21,10 +25,13 @@ export function useLegacyNavigation() {
 
 		const submenuItems = Array.from(header.querySelectorAll('li.wsite-menu-item-wrap, li.wsite-menu-subitem-wrap'));
 		submenuItems.forEach((li) => {
-			const submenu = li.querySelector(':scope > .wsite-menu-wrap');
+			const submenu = getDirectChildByClass(li, 'wsite-menu-wrap');
+			if (submenu) {
+				submenu.removeAttribute('style');
+			}
 			if (submenu && !li.classList.contains('has-submenu')) {
 				li.classList.add('has-submenu');
-				if (!li.querySelector(':scope > span.icon-caret')) {
+				if (!getDirectChildByClass(li, 'icon-caret')) {
 					const caret = document.createElement('span');
 					caret.className = 'icon-caret';
 					li.appendChild(caret);
@@ -47,7 +54,7 @@ export function useLegacyNavigation() {
 			const li = event.currentTarget.closest('li.has-submenu');
 			if (!li) return;
 			event.preventDefault();
-			const submenu = li.querySelector(':scope > .wsite-menu-wrap');
+			const submenu = getDirectChildByClass(li, 'wsite-menu-wrap');
 			if (submenu) {
 				submenu.classList.toggle('open');
 			}
@@ -58,18 +65,6 @@ export function useLegacyNavigation() {
 		mobileCarets.forEach((caret) => {
 			caret.addEventListener('click', handleCaretClick);
 			caretListeners.push(caret);
-		});
-
-		const desktopListeners = [];
-		const desktopItems = header.querySelectorAll('.desktop-nav li.has-submenu');
-		desktopItems.forEach((item) => {
-			const submenu = item.querySelector(':scope > .wsite-menu-wrap');
-			if (!submenu) return;
-			const show = () => submenu.style.setProperty('display', 'block');
-			const hide = () => submenu.style.setProperty('display', 'none');
-			item.addEventListener('mouseenter', show);
-			item.addEventListener('mouseleave', hide);
-			desktopListeners.push({ item, show, hide });
 		});
 
 		const handleLinkClick = (event) => {
@@ -96,10 +91,6 @@ export function useLegacyNavigation() {
 		return () => {
 			hamburger?.removeEventListener('click', handleHamburger);
 			caretListeners.forEach((caret) => caret.removeEventListener('click', handleCaretClick));
-			desktopListeners.forEach(({ item, show, hide }) => {
-				item.removeEventListener('mouseenter', show);
-				item.removeEventListener('mouseleave', hide);
-			});
 			anchorListeners.forEach((anchor) => anchor.removeEventListener('click', handleLinkClick));
 			router.events.off('routeChangeComplete', handleRouteChange);
 		};

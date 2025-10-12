@@ -78,6 +78,18 @@
 #wsite-content h2.wsite-product-title {}
 .wsite-product .wsite-product-price a {}
 }</style>
+<style>
+.embed-mobile,
+.embed-desktop { display: none; }
+.embed-mobile iframe,
+.embed-desktop iframe { width: 100%; border: none; }
+@media (max-width: 767px) {
+	.embed-mobile { display: block; }
+}
+@media (min-width: 768px) {
+	.embed-desktop { display: block; }
+}
+</style>
 
 		<script>
 var STATIC_BASE = '//cdn1.editmysite.com/';
@@ -301,11 +313,15 @@ _W.setup_model_rpc({"rpc_namespace":"_W.CustomerAccounts.RPC","model_namespace":
 
 <div class="paragraph" style="text-align:center;"><font size="5">&#8203;While we are still scratching the surface of all of Laleh's work and life story, you can now browse the beginnings of the LKL!&nbsp;<br />&#8203;Choose a "Type" to select books, videos, photos, or audio.<br />You can also filter by topics like Islam, moral healing, or traditional medicine... Give it a try!&nbsp;</font><br></div>
 
-<div><div id="202755804880956262" align="center" style="width: 100%; overflow-y: hidden;" class="wcustomhtml"><iframe id="softr-7841768c-3f99-4b4d-99dd-db4ec22c2dac-list-for-mobile" src="https://lkl.softr.app/embed/pages/7841768c-3f99-4b4d-99dd-db4ec22c2dac/blocks/list-for-mobile" width="100%" height="1000" scrolling="no" frameborder="0" style="border:none;"></iframe>    <script src="https://cdnjs.cloudflare.com/ajax/libs/iframe-resizer/4.2.11/iframeResizer.min.js"></script>    <script> iFrameResize({ checkOrigin: false, log: true }, '#softr-7841768c-3f99-4b4d-99dd-db4ec22c2dac-list-for-mobile');</script>
-<iframe id="softr-7841768c-3f99-4b4d-99dd-db4ec22c2dac-list-for-desktop" src="https://lkl.softr.app/embed/pages/7841768c-3f99-4b4d-99dd-db4ec22c2dac/blocks/list-for-desktop" width="100%" height="1000" scrolling="no" frameborder="0" style="border:none;"></iframe>    <script src="https://cdnjs.cloudflare.com/ajax/libs/iframe-resizer/4.2.11/iframeResizer.min.js"></script>    <script> iFrameResize({ checkOrigin: false, log: true }, '#softr-7841768c-3f99-4b4d-99dd-db4ec22c2dac-list-for-desktop');</script></div>
-
-
-
+<div>
+<div id="202755804880956262" align="center" style="width: 100%; overflow-y: hidden;" class="wcustomhtml">
+	<div class="embed-mobile" style="display: none;">
+		<iframe id="softr-7841768c-3f99-4b4d-99dd-db4ec22c2dac-list-for-mobile" src="https://lkl.softr.app/embed/pages/7841768c-3f99-4b4d-99dd-db4ec22c2dac/blocks/list-for-mobile" width="100%" height="1000" scrolling="no" frameborder="0" style="border:none;"></iframe>    <script src="https://cdnjs.cloudflare.com/ajax/libs/iframe-resizer/4.2.11/iframeResizer.min.js"></script>    <script> iFrameResize({ checkOrigin: false, log: true }, '#softr-7841768c-3f99-4b4d-99dd-db4ec22c2dac-list-for-mobile');</script>
+	</div>
+	<div class="embed-desktop">
+		<iframe id="softr-7841768c-3f99-4b4d-99dd-db4ec22c2dac-list-for-desktop" src="https://lkl.softr.app/embed/pages/7841768c-3f99-4b4d-99dd-db4ec22c2dac/blocks/list-for-desktop" width="100%" height="1000" scrolling="no" frameborder="0" style="border:none;"></iframe>    <script src="https://cdnjs.cloudflare.com/ajax/libs/iframe-resizer/4.2.11/iframeResizer.min.js"></script>    <script> iFrameResize({ checkOrigin: false, log: true }, '#softr-7841768c-3f99-4b4d-99dd-db4ec22c2dac-list-for-desktop');</script>
+	</div>
+</div>
 </div>
 			</div>
 		</div>
