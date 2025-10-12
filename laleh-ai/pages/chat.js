@@ -271,7 +271,7 @@ export default function ChatPage() {
 				<div className="flex-shrink-0 p-4 lg:p-10 pt-0 lg:pt-0">
 					<form onSubmit={handleSubmit} className="flex items-center gap-2 border rounded-lg px-4 py-2 bg-input text-input-foreground w-full mx-auto">
 						<input 
-							className="flex-1 bg-transparent outline-none placeholder:text-muted" 
+							className="flex-1 bg-transparent outline-none placeholder:text-muted text-lg text-[#D2F9D9]" 
 							value={input} 
 							placeholder="Ask Laleh AI..." 
 							onChange={handleInputChange}
