@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import ReactMarkdown from 'react-markdown';
 
-export default function Chat() {
+export default function ChatPage() {
 	const [messages, setMessages] = useState([]);
 	const [input, setInput] = useState('');
 	const [error, setError] = useState(null);
@@ -115,7 +115,7 @@ export default function Chat() {
 	};
 
 	return (
-		<main className="bg-background text-foreground">
+		<main className="min-h-screen bg-background text-foreground font-sans">
 			{/* Responsive Sidebar - Fixed on mobile at top, fixed on desktop at left */}
 			<aside className="w-full lg:w-80 bg-card p-6 shadow-md relative overflow-hidden fixed top-0 left-0 z-20 lg:fixed lg:left-0 lg:top-0 lg:h-screen lg:z-10" style={{
 				backgroundImage: 'url(/images/laleh-background.png)',
@@ -126,25 +126,46 @@ export default function Chat() {
 				{/* Overlay to ensure text readability */}
 				<div className="absolute inset-0 bg-black/60"></div>
 				{/* Content with relative positioning to appear above overlay */}
-				<div className="relative z-10">
-					{/* Mobile layout: horizontal with image on left */}
-					<div className="lg:hidden flex items-start gap-4">
-						<Image src="/images/laleh.jpg" alt="Dr. Laleh Bakhtiar" width={80} height={80} className="rounded-full flex-shrink-0" />
-						<div className="flex-1 min-w-0">
-  <h2 className="text-lg font-semibold">Laleh AI</h2>
-  <p className="text-sm mb-2">
-    Experience Laleh AI, an interactive space built from the writings and wisdom of the late Dr. Laleh Bakhtiar, pioneering scholar, translator, and interfaith thinker.
-  </p>
-  <p className="text-sm italic text-muted mb-1">Try asking:</p>
-  <div className="pl-4 text-sm text-muted-foreground italic space-y-1">
-    <p>💬 “How did Little Women inspire Dr. Laleh Bakhtiar growing up in D.C.?”</p>
-    <p>💬 “How did Dr. Seyyed Hossein Nasr guide her as a mentor?”</p>
-    <p>💬 “What was Dr. Laleh Bakhtiar’s approach to interfaith understanding?”</p>
-  </div>
-  <p className="text-sm mt-3">
-    Before she passed, Dr. Bakhtiar began recording her reflections and stories with her children, inspiring the creation of Laleh AI, a way to engage with her wisdom through the data of her writings, notes, and lectures, and to explore her timeless ideas on faith, spirit, and humanity.
-  </p>
-</div>
+				<div className="relative z-10 flex flex-col h-full text-white">
+					{/* Mobile layout: stack elements vertically with spacing */}
+					<div className="flex lg:hidden items-center space-x-4 mb-6">
+						<Image
+							src="/images/laleh.jpg"
+							alt="Dr. Laleh Bakhtiar"
+							width={60}
+							height={60}
+							className="rounded-full border-2 border-white shadow-lg"
+						/>
+						<div>
+							<h1 className="text-xl font-bold tracking-wide">
+								Dr. Laleh Bakhtiar, PhD
+							</h1>
+							<p className="text-sm text-white/80">
+								Distinguished Author, Translator, and Sufi Scholar
+							</p>
+						</div>
+					</div>
+
+					<div className="lg:hidden space-y-4 text-white">
+						<div>
+							<h2 className="text-lg font-semibold">Laleh AI</h2>
+							<p className="text-sm">
+								Experience Laleh AI, an interactive space built from the writings and wisdom of the late Dr. Laleh Bakhtiar, pioneering scholar, translator, and interfaith thinker.
+							</p>
+						</div>
+						<div>
+							<p className="text-sm italic text-white/80">Try asking:</p>
+							<ul className="text-sm space-y-1 text-white/90">
+								<li>💬 “How did Little Women inspire Dr. Laleh Bakhtiar growing up in D.C.?”</li>
+								<li>💬 “How did Dr. Seyyed Hossein Nasr guide her as a mentor?”</li>
+								<li>💬 “What was Dr. Laleh Bakhtiar’s approach to interfaith understanding?”</li>
+							</ul>
+						</div>
+						<div>
+							<p className="text-sm italic">
+								Before she passed, Dr. Bakhtiar began recording her reflections and stories with her children, inspiring the creation of Laleh AI, a way to engage with her wisdom through the data of her writings, notes, and lectures, and to explore her timeless ideas on faith, spirit, and humanity.
+							</p>
+						</div>
 					</div>
 					
 {/* Desktop layout: vertically centered */}
