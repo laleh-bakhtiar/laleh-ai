@@ -1,3 +1,47 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.cento-header .desktop-nav li.has-submenu {
+	position: relative;
+}
+
+.cento-header .desktop-nav li.has-submenu > .wsite-menu-wrap {
+	position: absolute;
+	top: 100%;
+	left: 0;
+	z-index: 20;
+	display: none;
+	min-width: 220px;
+	padding: 10px 0;
+	background: #ffffff;
+	border: 1px solid #b9b9b9;
+	box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08);
+}
+
+.cento-header .desktop-nav li.has-submenu > .wsite-menu-wrap ul.wsite-menu {
+	display: block;
+	padding: 0;
+	margin: 0;
+}
+
+.cento-header .desktop-nav li.has-submenu > .wsite-menu-wrap li.wsite-menu-subitem-wrap {
+	display: block;
+	margin: 0;
+}
+
+.cento-header .desktop-nav li.has-submenu > .wsite-menu-wrap a.wsite-menu-subitem {
+	display: block;
+	padding: 8px 24px;
+	color: #b9b9b9;
+	text-transform: uppercase;
+	letter-spacing: 0.07em;
+	white-space: nowrap;
+	font-family: 'Quattrocento Sans', sans-serif;
+	font-size: 13px;
+	line-height: 1.4;
+}
+
+.cento-header .desktop-nav li.has-submenu > .wsite-menu-wrap a.wsite-menu-subitem:hover {
+	color: #333333;
+}
