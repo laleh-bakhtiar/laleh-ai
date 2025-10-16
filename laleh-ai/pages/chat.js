@@ -154,14 +154,6 @@ export default function ChatPage() {
 							</p>
 						</div>
 						<div>
-							<p className="text-sm italic text-white/80">Try asking:</p>
-							<ul className="text-sm space-y-1 text-white/90">
-								<li>💬 “How did Little Women inspire Dr. Laleh Bakhtiar growing up in D.C.?”</li>
-								<li>💬 “How did Dr. Seyyed Hossein Nasr guide her as a mentor?”</li>
-								<li>💬 “What was Dr. Laleh Bakhtiar’s approach to interfaith understanding?”</li>
-							</ul>
-						</div>
-						<div>
 							<p className="text-sm italic">
 								Before she passed, Dr. Bakhtiar began recording her reflections and stories with her children, inspiring the creation of Laleh AI, a way to engage with her wisdom through the data of her writings, notes, and lectures, and to explore her timeless ideas on faith, spirit, and humanity.
 							</p>
