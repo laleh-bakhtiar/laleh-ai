@@ -183,7 +183,7 @@ export default function ChatPage() {
 			</aside>
 
 			{/* Chat Interface - Takes remaining height on mobile, full height with margin on desktop */}
-			<section className="absolute top-[493px] left-0 right-0 bottom-0 lg:relative lg:top-0 lg:ml-80 lg:right-auto lg:h-screen flex flex-col">
+			<section className="absolute top-[220px] left-0 right-0 bottom-0 lg:relative lg:top-0 lg:ml-80 lg:right-auto lg:h-screen flex flex-col">
 				{/* Messages Area - Scrollable */}
 				<div className="flex-1 overflow-y-auto p-4 lg:p-10">
 					{error && (
