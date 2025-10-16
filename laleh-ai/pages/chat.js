@@ -153,11 +153,6 @@ export default function ChatPage() {
 								Experience Laleh AI, an interactive space built from the writings and wisdom of the late Dr. Laleh Bakhtiar, pioneering scholar, translator, and interfaith thinker.
 							</p>
 						</div>
-						<div>
-							<p className="text-sm italic">
-								Before she passed, Dr. Bakhtiar began recording her reflections and stories with her children, inspiring the creation of Laleh AI, a way to engage with her wisdom through the data of her writings, notes, and lectures, and to explore her timeless ideas on faith, spirit, and humanity.
-							</p>
-						</div>
 					</div>
 					
 {/* Desktop layout: vertically centered */}
